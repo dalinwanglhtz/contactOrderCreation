@@ -8,19 +8,26 @@ public class ContactTriggerHandler {
         Map<Id, Boolean> accsHasPrimary = checkForPrimaryContactInACR(contacts);
         List<AccountContactRelation> acrs = new List<AccountContactRelation>();
 
+        List<Account> accountsToUpdate = new List<Account>();
         for(Contact ct: contacts) {
             AccountContactRelation acr = [SELECT Id, Roles, AccountId
                                          FROM AccountContactRelation
                                          WHERE ContactId = :ct.Id];
             if(ct.Contact_Role__c != null && 
-               (!accsHasPrimary.containsKey(acr.AccountId) || 
-                !accsHasPrimary.get(acr.AccountId) || 
-                ct.Contact_Role__c != 'Primary Contact') ) {
+               			(!accsHasPrimary.containsKey(acr.AccountId) || 
+                		!accsHasPrimary.get(acr.AccountId) || 
+                		ct.Contact_Role__c != 'Primary Contact') ) {
                 acr.Roles = ct.Contact_Role__c;
+                if(acr.Roles == 'Primary Contact') {
+                    Account acc = [SELECT Id, Primary_Contact__c FROM Account WHERE Id = :ct.AccountId];
+                    acc.Primary_Contact__c = ct.Id;
+                    accountsToUpdate.add(acc);
+                }
             }
             acrs.add(acr);
         }
         update acrs;
+        update accountsToUpdate;
     }
     
     /*
