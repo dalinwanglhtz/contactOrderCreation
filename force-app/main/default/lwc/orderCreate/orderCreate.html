@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="Order" icon-name="standard:orders">
+        <lightning-layout vertical-align="stretch">
+            <lightning-layout-item>
+                <lightning-record-edit-form
+                            object-api-name="Order"
+                            onsuccess={handleSuccess}>
+                    <lightning-messages></lightning-messages>
+                    <lightning-input-field field-name={orderStartDate}>
+                    </lightning-input-field>
+                    <lightning-input-field field-name={accountId}>
+                    </lightning-input-field>
+                    <lightning-input-field field-name={status}>
+                    </lightning-input-field>
+                    <lightning-input-field field-name={customerAuthorizedById}>
+                    </lightning-input-field>
+                    <lightning-button
+                            variant="brand"
+                            type="submit"
+                            label="Save">
+                    </lightning-button>
+                </lightning-record-edit-form>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>
