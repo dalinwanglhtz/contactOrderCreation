@@ -1,7 +1,5 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import createAcctContRelation from '@salesforce/apex/ContactCreateController.createAccountContactRelation';
-
 
 import FIRSTNAME_FIELD from '@salesforce/schema/Contact.FirstName';
 import LASTNAME_FIELD from '@salesforce/schema/Contact.LastName';
@@ -12,7 +10,6 @@ import CONTACTROLE_FIELD from '@salesforce/schema/Contact.Contact_Role__c';
 
 export default class ContactCreate extends LightningElement {
     @api recordId;
-    @track error;
 
     firstName = FIRSTNAME_FIELD;
     lastName = LASTNAME_FIELD;
@@ -22,7 +19,6 @@ export default class ContactCreate extends LightningElement {
     contactRole = CONTACTROLE_FIELD;
 
     handleSuccess(event) {
-        saveACRelation(event);
         const evt = new ShowToastEvent({
             title: "Contact Created",
             message: "Record ID: "+event.detail.id,
@@ -30,19 +26,4 @@ export default class ContactCreate extends LightningElement {
         });
         this.dispatchEvent(evt);
     }
-
-    saveACRelation(event) {
-        createAcctContRelation({contactId: event.detail.id})
-        .then(result => {
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Success!!',
-                message: 'Account Contact Relation Created Successfully!!',
-                variant: 'success'
-            }));
-        })
-        .catch(error => {
-            this.error = error.message;
-        })
-    }
-
 }
