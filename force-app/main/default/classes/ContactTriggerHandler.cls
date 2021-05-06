@@ -1,10 +1,10 @@
 public class ContactTriggerHandler {
     
     /*
-     * description: update account contact relation role
+     * description: update account and account contact relation roles
      * @param: contacts inserted
      */
-    public static void updateAccountContactRelation(List<Contact> contacts) {
+    public static void updateAccountAndAccountContactRelationRoles(List<Contact> contacts) {
         Map<Id, Account> acctsMap = getAccountsMap(contacts);
         Map<Id, AccountContactRelation> acrsMap = getACRsMap(contacts);
         List<AccountContactRelation> acrs = new List<AccountContactRelation>();
