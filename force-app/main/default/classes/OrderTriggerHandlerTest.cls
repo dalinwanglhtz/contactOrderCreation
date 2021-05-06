@@ -55,12 +55,11 @@ public class OrderTriggerHandlerTest {
         testOrder.EffectiveDate = Date.today();
         testOrder.AccountId = acct.Id;
         testOrder.Status = 'Draft';
-        insert testOrder;
-        
-        Order resultOrder = [SELECT Id, CustomerAuthorizedById
-                            FROM Order
-                            WHERE Id = :testOrder.Id];
-        System.assertEquals(null, resultOrder.CustomerAuthorizedById, 
-                            'Customer Authorized By ID should be empty');
+        try {
+            insert testOrder;
+            System.assert(false, 'An exception should be thrown by now.');
+        } catch(Exception e) {
+            System.assert(true);
+        }
     }
 }

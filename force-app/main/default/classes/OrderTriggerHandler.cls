@@ -15,9 +15,11 @@ public class OrderTriggerHandler {
                                                           AND AccountId = :order.AccountId LIMIT 1];
                     order.CustomerAuthorizedById = acctContRel.ContactId;
                 } catch (Exception e) {
-                    System.debug('The following error has occurred: Selected Account does not have a Primary Contact. '+e.getMessage());
+                    throw new NoPrimaryContactException('The following error has occurred: Selected Account does not have a Primary Contact.');
                 }
             }
         }
     }
+    
+    private class NoPrimaryContactException extends Exception {}
 }
