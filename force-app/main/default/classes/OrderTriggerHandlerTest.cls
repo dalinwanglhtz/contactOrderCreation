@@ -2,6 +2,9 @@
 public class OrderTriggerHandlerTest {
 	
     @testSetup static void setup() {
+        ApexTestSkip__c settings = new ApexTestSkip__c(SetupOwnerId=UserInfo.getOrganizationId(), SkipProcessBuilder__c= true);
+		insert settings;
+        
         Account testAcct = new Account(Name = 'Test Account 1');
         insert testAcct;
         
